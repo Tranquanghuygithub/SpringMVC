@@ -24,6 +24,7 @@ public class WebInitalizer implements WebApplicationInitializer {
 				new DispatcherServlet(appContext));
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
+		
 		CharacterEncodingFilter characterEncodingFilter= new CharacterEncodingFilter("UTF-8",true);
 		servletContext.addFilter("encodingFilter", characterEncodingFilter)
 		.addMappingForUrlPatterns(null, false, "/*");

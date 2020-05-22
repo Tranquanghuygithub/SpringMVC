@@ -2,7 +2,6 @@ package com.springmvc.model;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User {
@@ -11,6 +10,7 @@ public class User {
 	private long id;
 	private String gender;
 	private String about;
+	private String phone;
 	private List<String> favourites;
 	private MultipartFile avatar;
 		private boolean acceptAgreement;
@@ -77,6 +77,14 @@ public class User {
 
 	public void setAvatar(MultipartFile avatar) {
 		this.avatar = avatar;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 

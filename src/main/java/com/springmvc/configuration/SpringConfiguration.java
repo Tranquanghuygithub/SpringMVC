@@ -1,10 +1,13 @@
 package com.springmvc.configuration;
+import javax.sql.DataSource;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -13,8 +16,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-
-import com.springmvc.validator.UserValidator;
 
 @Configuration
 @EnableWebMvc
@@ -55,5 +56,19 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 		CommonsMultipartResolver commonsMultipartResolver= new CommonsMultipartResolver();
 		commonsMultipartResolver.setMaxUploadSize(-1);// -1 ko gioi han/ con ko ghi dung luong dang byte
 		return commonsMultipartResolver;
+	}
+	@Bean
+	public  DataSource dataSource() {
+		DriverManagerDataSource dataSource= new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/banhang");
+		dataSource.setUsername("root");
+		dataSource.setPassword("huy123456789");
+		return dataSource;
+	}
+	
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource());
 	}
 }

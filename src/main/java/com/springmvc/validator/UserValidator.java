@@ -24,11 +24,11 @@ public class UserValidator implements Validator{
 		if(user.getName()== null || user.getName().length() ==0) {
 			errors.rejectValue("name", "field.required"); 
 		}
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password" ,"field.required");
+	//	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password" ,"field.required");
 		
-		if( user.getPassword().length()< 6 || user.getPassword().length() >12 ) {
-			errors.rejectValue("password","password.invalid");
-		}
+//		if( user.getPassword().length()< 6 || user.getPassword().length() >12 ) {
+//			errors.rejectValue("password","password.invalid");
+//		}
 	}
 
 }
