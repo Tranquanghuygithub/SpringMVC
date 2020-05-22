@@ -11,7 +11,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.springmvc")
 @PropertySource(value = {"classpath:db.properties"})
+@EnableTransactionManagement
 //coponentScan quet cac class co annotation tao bean
 
 public class SpringConfiguration extends WebMvcConfigurerAdapter{
@@ -85,4 +88,10 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 	public JdbcTemplate jdbcTemplate() {
 		return new JdbcTemplate(dataSource());
 	}
+	@Bean(name="transactionmanager")
+	// vi khi su dung ta su dung nhieu transaction nen them name ddeex quanr lis
+	public DataSourceTransactionManager dataSourceTransactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
+	
 }
