@@ -14,7 +14,7 @@ import com.springmvc.model.User;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-	
+
 	@Autowired
 	JdbcTemplate jdbcTemplate; // tu dong gan bean jdbc template vao = bien nay de su dung
 	
@@ -22,7 +22,6 @@ public class UserDAOImpl implements UserDAO {
 	public void addUser(User user) {
 		String sql= "INSERT INTO USER(NAME, PHONE) "
 				+ " VALUES(?,?)";
-		jdbcTemplate.update(sql,user.getName(),user.getPhone());		
 	}
 
 	@Override

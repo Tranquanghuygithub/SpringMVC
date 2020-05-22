@@ -1,11 +1,15 @@
 package com.springmvc.configuration;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.MultipartResolver;
@@ -20,10 +24,20 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.springmvc")
+@PropertySource(value = {"classpath:db.properties"})
 //coponentScan quet cac class co annotation tao bean
 
 public class SpringConfiguration extends WebMvcConfigurerAdapter{
 	// file nayf = file applicationcontextConfig+ webmvcConfig
+	//
+	@Autowired
+	Environment environment;
+	@Bean 
+	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer () {
+		//de doc cac file properties
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+	//
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -60,10 +74,10 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 	@Bean
 	public  DataSource dataSource() {
 		DriverManagerDataSource dataSource= new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/banhang");
-		dataSource.setUsername("root");
-		dataSource.setPassword("huy123456789");
+		dataSource.setDriverClassName(environment.getProperty("driver"));
+		dataSource.setUrl( environment.getProperty("url"));
+		dataSource.setUsername( environment.getProperty("usernam"));// neu de username nó sẽ mặc định là giá trị= TranHuy. tên máy
+		dataSource.setPassword ( environment.getProperty("password"));
 		return dataSource;
 	}
 	
