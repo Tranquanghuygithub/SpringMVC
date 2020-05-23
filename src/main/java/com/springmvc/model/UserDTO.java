@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class User {
+public class UserDTO {
 	private String name;
 	private String password;
 	private long id;

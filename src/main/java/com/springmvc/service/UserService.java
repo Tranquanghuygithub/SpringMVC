@@ -2,12 +2,12 @@ package com.springmvc.service;
 
 import java.util.List;
 
-import com.springmvc.model.User;
+import com.springmvc.model.UserDTO;
 
 public interface UserService {
-	void addUser(User user);
-	void updateUser(User user);
+	void addUser(UserDTO user);
+	void updateUser(UserDTO user);
 	void deleteUser(long id);
-	User getUserById(long id);
-	List <User> getAllUsers();
+	UserDTO getUserById(long id);
+	List <UserDTO> getAllUsers();
 }

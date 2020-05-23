@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.model.User;
+import com.springmvc.model.UserDTO;
 import com.springmvc.validator.UserValidator;
 
 @Controller
@@ -55,7 +55,7 @@ public class HelloController {
 
 	@RequestMapping(value = "/them-user", method = RequestMethod.GET)
 	public String hello(HttpServletRequest request) {
-		User user = new User();
+		UserDTO user = new UserDTO();
 		user.setName("Spring");// value default
 		request.setAttribute("user", user);
 		// co thể set 1 loat cac favourite sang view= cachs request.at 1 list . ben kia
@@ -66,7 +66,7 @@ public class HelloController {
 	// B2: ben trang view su dung Spring form vói modelAtribute....
 	// B3: Sau khi bam submit se tu đong add vào object
 	@RequestMapping(value = "/them-user", method = RequestMethod.POST)
-	public String hello(HttpServletRequest request, @ModelAttribute("user") User user,
+	public String hello(HttpServletRequest request, @ModelAttribute("user") UserDTO user,
 
 			BindingResult bindingResult) {
 

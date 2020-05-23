@@ -1,6 +1,9 @@
 package com.springmvc.configuration;
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +13,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -83,15 +86,38 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 		dataSource.setPassword ( environment.getProperty("password"));
 		return dataSource;
 	}
-	
 	@Bean
-	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource());
+	public LocalSessionFactoryBean sessionFactoryBean() {
+		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
+		bean.setDataSource(dataSource());
+		bean.setPackagesToScan("com.springmvc.entity");// package: ddeer chua class de dung mapping voi cac bang trogn CSDL
+		
+		
+		Properties hibernateProperties = new Properties();
+		// tao cau lenh sql chuan voi tung he quan tri CSDL
+		hibernateProperties.put("hibernate.dialect",environment.getProperty("hibernate.dialect")); // value= hibernate.dialect for mysql
+		hibernateProperties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));// ddee hien thi cau lenh sql tren console
+		bean.setHibernateProperties(hibernateProperties);
+		return bean;
 	}
-	@Bean(name="transactionmanager")
-	// vi khi su dung ta su dung nhieu transaction nen them name ddeex quanr lis
-	public DataSourceTransactionManager dataSourceTransactionManager() {
-		return new DataSourceTransactionManager(dataSource());
+	@Bean(name="transactionManager")
+	@Autowired
+	// autuwrite dde tu dong gan bean vao bien sesstionFactory
+	public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory){
+		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
+		hibernateTransactionManager.setSessionFactory(sessionFactory);
+		return hibernateTransactionManager;
+		
 	}
+	
+//	@Bean
+//	public JdbcTemplate jdbcTemplate() {
+//		return new JdbcTemplate(dataSource());
+//	}
+//	@Bean(name="transactionmanager")
+//	// vi khi su dung ta su dung nhieu transaction nen them name ddeex quanr lis
+//	public DataSourceTransactionManager dataSourceTransactionManager() {
+//		return new DataSourceTransactionManager(dataSource());
+//	}
 	
 }

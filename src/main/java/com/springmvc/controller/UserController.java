@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.springmvc.model.User;
+import com.springmvc.model.UserDTO;
 import com.springmvc.service.UserService;
 import com.springmvc.validator.UserValidator;
 
@@ -25,34 +25,34 @@ public class UserController {
 	
 	@RequestMapping(value="/list-user", method= RequestMethod.GET)
 	public String getAllUsers(HttpServletRequest request) {
-		List<User> users= userService.getAllUsers();
+		List<UserDTO> users= userService.getAllUsers();
 		request.setAttribute("users", users);
 		return "user/userList";
 		
 	}
 	@RequestMapping(value="/detail-user/{userId}", method= RequestMethod.GET)
 	public String  detailUser(HttpServletRequest request, @PathVariable(name = "userId") long userId) {
-		User user = userService.getUserById(userId);
+		UserDTO user = userService.getUserById(userId);
 		request.setAttribute("user", user);
 		return "user/detailUser";
 	}
 	@RequestMapping(value="/delete-user/{userId}", method= RequestMethod.GET)
 	public String  deleteUser(HttpServletRequest request, @PathVariable(name = "userId") long userId) {
 		userService.deleteUser(userId);
-		List<User> users= userService.getAllUsers();
+		List<UserDTO> users= userService.getAllUsers();
 		//update list customer
 		request.setAttribute("users", users);
 		return "user/userList";
 	}
 	@RequestMapping(value="/update-user/{userId}", method= RequestMethod.GET)
 	public String  updateUser(HttpServletRequest request, @PathVariable(name = "userId") long userId) {
-		User user= userService.getUserById(userId);
+		UserDTO user= userService.getUserById(userId);
 		System.out.println(user.getName()+" "+user.getPhone());
 		request.setAttribute("user", user);
 		return "user/update";
 	}
 	@RequestMapping(value="/update-user", method= RequestMethod.POST)
-	public String  updateUser(HttpServletRequest request,@ModelAttribute(name = "user") User user, BindingResult bindingResult) {
+	public String  updateUser(HttpServletRequest request,@ModelAttribute(name = "user") UserDTO user, BindingResult bindingResult) {
 		System.out.println("A");
 		userValidator.validate(user, bindingResult);
 		if (bindingResult.hasErrors()) {		
@@ -64,12 +64,12 @@ public class UserController {
 	}
 	@RequestMapping(value="/add-user", method= RequestMethod.GET)
 	public String  addUser(HttpServletRequest request) {
-		User user= new User();
+		UserDTO user= new UserDTO();
 		request.setAttribute("user", user);
 		return "user/addUser";
 	}
 	@RequestMapping(value="/add-user", method= RequestMethod.POST)
-	public String  addUser(HttpServletRequest request, @ModelAttribute(name="user") User user) {
+	public String  addUser(HttpServletRequest request, @ModelAttribute(name="user") UserDTO user) {
 		userService.addUser(user);
 		userService.updateUser(user);
 		return "redirect:/list-user";

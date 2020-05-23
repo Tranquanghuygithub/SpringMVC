@@ -2,12 +2,12 @@ package com.springmvc.DAO;
 
 import java.util.List;
 
-import com.springmvc.model.User;
+import com.springmvc.entity.UserEntity;
 
 public interface UserDAO {
-	void addUser(User user);
-	void updateUser(User user);
+	void addUser(UserEntity user);
+	void updateUser(UserEntity user);
 	void deleteUser(long id);
-	User getUserById(long id);
-	List <User> getAllUsers();
+	UserEntity getUserById(long id);
+	List <UserEntity> getAllUsers();
 }
