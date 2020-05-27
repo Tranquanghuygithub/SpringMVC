@@ -70,6 +70,7 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 //	@Bean // tao bean Uservalidator tu class user validator
 //	public UserValidator userValidator() {
 //		return new UserValidator();
+	//ko dung cai nay vi su dung @component de tao bean roi
 //	}
 	@Bean(name="multipartResolver")
 	public MultipartResolver multipartResolver() {
@@ -95,7 +96,7 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 		
 		Properties hibernateProperties = new Properties();
 		// tao cau lenh sql chuan voi tung he quan tri CSDL
-		hibernateProperties.put("hibernate.dialect",environment.getProperty("hibernate.dialect")); // value= hibernate.dialect for mysql
+		hibernateProperties.put("hibernate.dialect",environment.getProperty("hibernate.dialect")); // value= hibernate.dialect for mysql._để tạo ra câu lệnh Sql chuẩn với tưng CSDL
 		hibernateProperties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));// ddee hien thi cau lenh sql tren console
 		bean.setHibernateProperties(hibernateProperties);
 		return bean;

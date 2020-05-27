@@ -5,12 +5,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.springmvc.model.UserDTO;
 import com.springmvc.service.UserService;
@@ -23,13 +27,27 @@ public class UserController {
 	@Autowired 
 	private UserValidator userValidator;
 	
+	//Test Json
+//	@RequestMapping(value="/danh-sach")
+//	public @ResponseBody List<UserDTO> getListUser(){
+//		List<UserDTO> list= userService.getAllUsers();
+//		return list;	
+//	}
+//	// guwir thong bao tra ve cua http laf 201: da tao than cong
+//	@ResponseStatus(code=HttpStatus.CREATED)
+//	@RequestMapping(value="/them-nguoi-dung", method= RequestMethod.POST)
+//	public  @ResponseBody void  themUser(@RequestBody UserDTO user) {
+//		userService.addUser(user);
+//		//return "redirect:/list-user";
+//	}
+	//end resful api
 	@RequestMapping(value="/list-user", method= RequestMethod.GET)
 	public String getAllUsers(HttpServletRequest request) {
 		List<UserDTO> users= userService.getAllUsers();
 		request.setAttribute("users", users);
-		return "user/userList";
-		
+		return "user/userList";	
 	}
+	
 	@RequestMapping(value="/detail-user/{userId}", method= RequestMethod.GET)
 	public String  detailUser(HttpServletRequest request, @PathVariable(name = "userId") long userId) {
 		UserDTO user = userService.getUserById(userId);
@@ -71,7 +89,6 @@ public class UserController {
 	@RequestMapping(value="/add-user", method= RequestMethod.POST)
 	public String  addUser(HttpServletRequest request, @ModelAttribute(name="user") UserDTO user) {
 		userService.addUser(user);
-		userService.updateUser(user);
 		return "redirect:/list-user";
 	}
 }

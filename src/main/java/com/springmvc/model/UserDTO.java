@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDTO {
 	private String name;
 	private String password;
 	private long id;
 	private String gender;
 	private String about;
+	@JsonProperty(value = "So dien thoai")// set cai ten se tra vè thay cho phone
 	private String phone;
 	private List<String> favourites;
 	private MultipartFile avatar;
